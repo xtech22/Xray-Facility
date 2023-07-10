@@ -1,0 +1,11 @@
+spring: 
+  datasource:
+    username: xray_facility
+    password: xray_facility
+    url: jdbc:mysql://localhost:3306/xray_facility
+    
+  jpa:
+    hibernate: 
+      ddl-auto: create
+    show-sql: true
+    defer-datasource-initialization: true 
