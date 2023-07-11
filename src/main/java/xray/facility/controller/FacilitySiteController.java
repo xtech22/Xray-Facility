@@ -40,15 +40,19 @@ public class FacilitySiteController {
 	
 	@PostMapping("/facility_site")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public XrayFacilityData createFacilitySite(@RequestBody XrayFacilityData xrayFacilityData) {log.info("Creating facility site{}", xrayFacilityData);		
+    public XrayFacilityData createFacilitySite(
+    	@RequestBody XrayFacilityData xrayFacilityData) {
+		log.info("Creating facility site {}", xrayFacilityData);		
  	  return facilitySiteService.saveFacilitySite(xrayFacilityData);
 
     }
 	
 	@PutMapping("/facility_site/{facilitySiteId}")
-    public XrayFacilityData updateFacilitySite(@PathVariable Long facilitySiteId, @RequestBody XrayFacilityData xrayFacilityData) {
-		xrayFacilityData.setFacilitySiteId(facilitySiteId); log.info("Updating facility site{}", xrayFacilityData);	
-	   return facilitySiteService.saveFacilitySite(xrayFacilityData);
+    public XrayFacilityData updateFacilitySite(@PathVariable Long facilitySiteId, 
+    @RequestBody XrayFacilityData xrayFacilityData) {
+	xrayFacilityData.setFacilitySiteId(facilitySiteId); 
+	log.info("Updating facility site {}", xrayFacilityData);	
+	 		return facilitySiteService.saveFacilitySite(xrayFacilityData);
      }
 	
 	 @PostMapping("/facility_site/{facilitySiteId}/patient")
@@ -56,8 +60,8 @@ public class FacilitySiteController {
      public FacilitySitePatient addPatient(@PathVariable Long facilitySiteId, 
      @RequestBody FacilitySitePatient facilitySitePatient) {	
      log.info("Creating facility site patient {}", facilitySitePatient);			
-      FacilitySitePatient patient = facilitySiteService.savePatient(facilitySiteId, facilitySitePatient);	
-      return patient;
+     FacilitySitePatient patient = facilitySiteService.savePatient(facilitySiteId, facilitySitePatient);	
+     			return patient;
       }
 	 
 	 
@@ -67,16 +71,16 @@ public class FacilitySiteController {
      @ResponseStatus(code = HttpStatus.CREATED)
      public FacilitySiteTech addTech(@PathVariable Long facilitySiteId, 
      @RequestBody FacilitySiteTech facilitySiteTech) {	
-     log.info("Creating facility site tech {}", facilitySiteTech);			
-      FacilitySiteTech tech = facilitySiteService.saveTech(facilitySiteId, facilitySiteTech);	
-      return tech;
+		log.info("Creating facility site tech {}", facilitySiteTech);			
+     	FacilitySiteTech tech = facilitySiteService.saveTech(facilitySiteId, facilitySiteTech);	
+     return tech;
        }
 	
 	 @PutMapping("/facility_site/{facilitySiteId}/tech/{techId}")
-     public XrayFacilityData updateTech(@PathVariable Long techId,
+     public XrayFacilityData updateTech(@PathVariable String techId,
      @RequestBody XrayFacilityData xrayFacilityData) {
-		 		Tech.setTechId(techId);
-     log.info("Updating tech {}", xrayFacilityData);	
+		 XrayFacilityData.setTechId(techId);
+		 log.info("Updating tech {}", xrayFacilityData);	
      return facilitySiteService.saveFacilitySite(xrayFacilityData);
    	}
 	 
@@ -86,8 +90,8 @@ public class FacilitySiteController {
 	 /////////////////////Facility Entity/////////////////
 	 @GetMapping("/facility_site")
      public List<XrayFacilityData> getAllFacilitySites() {
-  	  log.info("Retrieving all facility sites");
-     List<XrayFacilityData> facilitySites = facilitySiteService.retrieveAllFacilitySites();
+		 log.info("Retrieving all facility sites");
+		 List<XrayFacilityData> facilitySites = facilitySiteService.retrieveAllFacilitySites();  
      return facilitySites;
      }
 	
@@ -95,12 +99,12 @@ public class FacilitySiteController {
      public XrayFacilityData getFacilitySiteById(@PathVariable Long facilitySiteId) {
 	       log.info("Retrieving facility site with ID= {}", facilitySiteId);
 	       XrayFacilityData facilitySite = facilitySiteService.retrieveFacilitySiteById(facilitySiteId);
-            return facilitySite;
+      return facilitySite;
           }
 	 
 	 @DeleteMapping("/facility_site/{facilitySiteId}/techs")public Map<String, String> deleteFacilitySiteById(@PathVariable Long facilitySiteId) {
          log.info("Deleting facility site with ID={}", facilitySiteId);
-      facilitySiteService.deleteFacilitySiteById(facilitySiteId);
+         facilitySiteService.deleteFacilitySiteById(facilitySiteId);
       return Map.of("message", "Delete facility site with ID=" + facilitySiteId + " was successful!");
        }
 	

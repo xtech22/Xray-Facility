@@ -13,22 +13,18 @@ import lombok.extern.slf4j.Slf4j;
 @RestControllerAdvice
 @Slf4j
 public class GlobalErrorHandler {
-	 //Returns a NoSuchElementException message. 
-		//The NoSuchElementException parameter 
-	   // converted to a string value.
+	 														 
+		 
+	   
 		
 		
-		@ExceptionHandler(NoSuchElementException.class)
-		@ResponseStatus(code = HttpStatus.NOT_FOUND)
-		public Map<String, String> handleNoSuchElementExeption(
+		@ExceptionHandler(NoSuchElementException.class)				//Returns a NoSuchElementException message.
+		@ResponseStatus(code = HttpStatus.NOT_FOUND)				//The NoSuchElementException parameter
+		public Map<String, String> handleNoSuchElementExeption(		// converted to a string value.
 		NoSuchElementException e) {
 		log.error("Exception:{}", e.toString());
 		return Map.of("message", e.toString());
 		}
 	}
-			  //log.info("NoSuchElementException occurred: {}", e.toString());
-			 //Map<String, String> message = new HashMap<>();
-			//message.put("message", e.toString());
-		   //return message;
-	      //404 not found status. Log the error using the SLF4J logger. 
+			
 

@@ -11,15 +11,18 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-@Entity// specifies persistent entity in database
-@Data//....generates boiler plate code for getters setters equals hashCode
+
+@Entity															//specifies persistent entity in database
+@Data															//generates boiler plate code for getters setters equals hashCode
 public class Tech {
-	@Id //primary key
-	@GeneratedValue(strategy = GenerationType.IDENTITY)//...value of identity will be auto generated
-	static Long techId; //...unique identifier for patient
-	
+	@Id 														//primary key
+	@GeneratedValue(strategy = GenerationType.IDENTITY)			//value of identity will be auto generated
+	private Long techId; 										//tech identifier
 	private String techName;
 	private String techRole;
+	
+	
+	
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	@ManyToOne(cascade = CascadeType.ALL)

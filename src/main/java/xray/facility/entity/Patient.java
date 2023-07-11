@@ -13,12 +13,12 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 
-@Entity// specifies persistent entity in database
-@Data//....generates boiler plate code for getters setters equals hashCode
+@Entity														//specifies persistent entity in database
+@Data														//generates boiler plate code for getters setters equals hashCode
 public class Patient {
 	@Id //primary key
-	@GeneratedValue(strategy = GenerationType.IDENTITY)//...value of identity will be auto generated
-	private Long patientId;//...unique identifier for patient
+	@GeneratedValue(strategy = GenerationType.IDENTITY)		//value of identity will be auto generated
+	private Long patientId;									//unique identifier for patient
 	private String patientName;
 	private String patientDOB;
 	private String patientGender;
@@ -26,6 +26,6 @@ public class Patient {
 	
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
-	@ManyToMany(mappedBy = "patients", cascade = CascadeType.PERSIST)// ....shows patients field is owning side
+	@ManyToMany(mappedBy = "patients", cascade = CascadeType.PERSIST)	//shows patients field is owning side
 	Set<FacilitySite> facilitySites = new HashSet<>();
 }
