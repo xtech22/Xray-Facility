@@ -27,8 +27,8 @@ public class FacilitySite {
 	  @ToString.Exclude
 	  @ManyToMany(cascade = CascadeType.PERSIST)
 	  @JoinTable(name = "facility_site_patient",
-	  joinColumns = @JoinColumn(name = "facility_site_id"),
-	  inverseJoinColumns = @JoinColumn(name = "patient_id"))
+	  	joinColumns = @JoinColumn(name = "facility_site_id"),
+	  	inverseJoinColumns = @JoinColumn(name = "patient_id"))
 	  Set<Patient> patients = new HashSet<>();
 	  
 	  @EqualsAndHashCode.Exclude

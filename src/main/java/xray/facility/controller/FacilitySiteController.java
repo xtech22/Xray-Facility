@@ -24,19 +24,18 @@ import xray.facility.service.FacilitySiteService;
 @RestController
 @Slf4j
 public class FacilitySiteController {
-	/* Source: @Promineo...
-    @RestController – This tells Spring that this class is a REST controller. As such it expects and returns JSON in the request/response bodies. 
-  The default response status code is 200 (OK) if you don't specify something different. And finally, this annotation tells Spring to map HTTP 
-  requests to class methods. The annotation is in the org.springframework.web.bind.annotation package.
-	 @RequestMapping("/clinic_site") – This tells Spring that the URI for every HTTP request that is mapped to a method in 
-	 this controller class must start with "/clinic_site". This annotation is in the org.springframework.web.bind.annotation package.
-  @Slf4j – This is a Lombok annotation that creates an SLF4J logger. It adds the logger as an instance variable named log.
-   Use it like this:
- 	 log.info("This is a log line"): 
- 	*/ 
+/* Source: @Promineo...
+	    @RestController – This tells Spring that this class is a REST controller. As such it expects and returns JSON in the request/response bodies. 
+	  The default response status code is 200 (OK) if you don't specify something different. And finally, this annotation tells Spring to map HTTP 
+	  requests to class methods.
+	  @Slf4j – This is a Lombok annotation that creates an SLF4J logger. It adds the logger as an instance variable named log.	*/ 
 	
 	@Autowired
 	private FacilitySiteService facilitySiteService;
+	
+	
+	
+/////////////////////Facility Entity/////////////////
 	
 	@PostMapping("/facility_site")
     @ResponseStatus(code = HttpStatus.CREATED)
@@ -44,8 +43,21 @@ public class FacilitySiteController {
     	@RequestBody XrayFacilityData xrayFacilityData) {
 		log.info("Creating facility site {}", xrayFacilityData);		
  	  return facilitySiteService.saveFacilitySite(xrayFacilityData);
-
-    }
+		}
+	
+	@GetMapping("/facility_site")
+    public List<XrayFacilityData> getAllFacilitySites() {
+		 log.info("Retrieving all facility sites");
+		 List<XrayFacilityData> facilitySites = facilitySiteService.retrieveAllFacilitySites();  
+    return facilitySites;
+    	}
+	
+	@GetMapping("/facility_site/{facilitySiteId}")
+    public XrayFacilityData getFacilitySiteById(@PathVariable Long facilitySiteId) {
+	       log.info("Retrieving facility site with ID= {}", facilitySiteId);
+	       XrayFacilityData facilitySite = facilitySiteService.retrieveFacilitySiteById(facilitySiteId);
+     return facilitySite;
+         }
 	
 	@PutMapping("/facility_site/{facilitySiteId}")
     public XrayFacilityData updateFacilitySite(@PathVariable Long facilitySiteId, 
@@ -53,7 +65,40 @@ public class FacilitySiteController {
 	xrayFacilityData.setFacilitySiteId(facilitySiteId); 
 	log.info("Updating facility site {}", xrayFacilityData);	
 	 		return facilitySiteService.saveFacilitySite(xrayFacilityData);
-     }
+     	}
+	
+	@DeleteMapping("/facility_site/{facilitySiteId}")public Map<String, String> deleteFacilitySiteById(@PathVariable Long facilitySiteId) {
+        log.info("Deleting facility site with ID={}", facilitySiteId);
+        facilitySiteService.deleteFacilitySiteById(facilitySiteId);
+     return Map.of("message", "Delete facility site with ID=" + facilitySiteId + " was successful!");
+		}
+	
+	
+	
+	
+	
+	/////////////////////Tech Entity/////////////////
+	
+	@PostMapping("/facility_site/{facilitySiteId}/tech")
+	@ResponseStatus(code = HttpStatus.CREATED)
+	public FacilitySiteTech addTech(@PathVariable Long facilitySiteId, 
+	@RequestBody FacilitySiteTech facilitySiteTech) {	
+	log.info("Creating facility site tech {}", facilitySiteTech);			
+	FacilitySiteTech tech = facilitySiteService.saveTech(facilitySiteId, facilitySiteTech);	
+		return tech;
+	}
+
+	@PutMapping("/facility_site/{facilitySiteId}/tech/{techId}")  //working on the put mapping request
+	public FacilitySiteTech updateTech(@PathVariable Long techId,
+	@RequestBody Tech  tech ) {
+	log.info("Updating tech {}", techId);	
+	return facilitySiteService.updateTech(techId, tech);
+	}
+
+	
+	
+	
+	/////////////////////Patient Entity/////////////////
 	
 	 @PostMapping("/facility_site/{facilitySiteId}/patient")
      @ResponseStatus(code = HttpStatus.CREATED)
@@ -64,49 +109,21 @@ public class FacilitySiteController {
      			return patient;
       }
 	 
+
 	 
-	 
-	 /////////////////////Tech Entity/////////////////
-	 @PostMapping("/facility_site/{facilitySiteId}/tech")
-     @ResponseStatus(code = HttpStatus.CREATED)
-     public FacilitySiteTech addTech(@PathVariable Long facilitySiteId, 
-     @RequestBody FacilitySiteTech facilitySiteTech) {	
-		log.info("Creating facility site tech {}", facilitySiteTech);			
-     	FacilitySiteTech tech = facilitySiteService.saveTech(facilitySiteId, facilitySiteTech);	
-     return tech;
-       }
-	
-	 @PutMapping("/facility_site/{facilitySiteId}/tech/{techId}")
-     public XrayFacilityData updateTech(@PathVariable String techId,
-     @RequestBody XrayFacilityData xrayFacilityData) {
-		 XrayFacilityData.setTechId(techId);
-		 log.info("Updating tech {}", xrayFacilityData);	
-     return facilitySiteService.saveFacilitySite(xrayFacilityData);
-   	}
-	 
+//	 @PutMapping("/patient/{patientId}") 										// working on the Put mapping to update patient 
+//	 public FacilitySitePatient updatePatient(@PathVariable Long patientId,
+//			 @RequestBody FacilitySitePatient facilitySitePatient) {
+//			log.info("Updating patient {}", facilitySitePatient );
+//			return facilitySiteService.savePatient(facilitySitePatient);
 	
 	 
-	 
-	 /////////////////////Facility Entity/////////////////
-	 @GetMapping("/facility_site")
-     public List<XrayFacilityData> getAllFacilitySites() {
-		 log.info("Retrieving all facility sites");
-		 List<XrayFacilityData> facilitySites = facilitySiteService.retrieveAllFacilitySites();  
-     return facilitySites;
-     }
+	// @RequestMapping("/facility_site") – This tells Spring that the URI for every HTTP request that is mapped to a method in 
+	// this controller class must start with "/clinic_site". This annotation is in the org.springframework.web.bind.annotation package.
+
 	
-	 @GetMapping("/facility_site/{facilitySiteId}")
-     public XrayFacilityData getFacilitySiteById(@PathVariable Long facilitySiteId) {
-	       log.info("Retrieving facility site with ID= {}", facilitySiteId);
-	       XrayFacilityData facilitySite = facilitySiteService.retrieveFacilitySiteById(facilitySiteId);
-      return facilitySite;
-          }
 	 
-	 @DeleteMapping("/facility_site/{facilitySiteId}/techs")public Map<String, String> deleteFacilitySiteById(@PathVariable Long facilitySiteId) {
-         log.info("Deleting facility site with ID={}", facilitySiteId);
-         facilitySiteService.deleteFacilitySiteById(facilitySiteId);
-      return Map.of("message", "Delete facility site with ID=" + facilitySiteId + " was successful!");
-       }
+	
 	
 	
 	

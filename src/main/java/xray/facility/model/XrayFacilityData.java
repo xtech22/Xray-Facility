@@ -14,7 +14,10 @@ import xray.facility.entity.Tech;
 
 @Data
 @NoArgsConstructor
-public class XrayFacilityData {							//constructor for XrayFacilityData takes FacilitySite as parameter. sets matching fields in the FacilitySiteData class to data in the FacilitySite class
+public class XrayFacilityData {	
+	
+	//constructor for XrayFacilityData takes FacilitySite as parameter. sets matching fields in the FacilitySiteData class to data in the FacilitySite class
+	
 	  private Long   facilitySiteId;	  
 	  private String facilitySiteName;
 	  private String facilitySiteModality;
@@ -41,7 +44,7 @@ public class XrayFacilityData {							//constructor for XrayFacilityData takes F
    
       
 	  @Data
-      
+      @NoArgsConstructor
 	  public static class FacilitySitePatient {
 		  															//Constructor it takes Patient object gets corresponding fields in FacilitySitePatient instance
       public FacilitySitePatient(Patient patient) { 
@@ -83,24 +86,3 @@ public class XrayFacilityData {							//constructor for XrayFacilityData takes F
 
 
 }   		    			
-	    
-		    		
-	    		
-	    		
-	    	
-	        
-    
-	
-
- 
-	  
-        
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-

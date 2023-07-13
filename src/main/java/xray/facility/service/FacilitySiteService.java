@@ -20,8 +20,11 @@ import xray.facility.model.XrayFacilityData.FacilitySitePatient;
 import xray.facility.model.XrayFacilityData.FacilitySiteTech;
 @Service							//Business Logistics that takes Interface from DAO layer
 public class FacilitySiteService {
-	//Spring can inject DAO object into the variable autowired
-    //FacilitySiteDao object named facilitySiteDao as pvt instance variable
+									//Spring can inject DAO object into the variable autowired
+    								//FacilitySiteDao object named facilitySiteDao as pvt instance variable
+	
+	
+	
 	
 	
   	@Autowired
@@ -33,7 +36,9 @@ public class FacilitySiteService {
   	
   	
   	
-  //Method below saves any new facility site. FacilitySiteData object as a parameter and return a FacilitySiteData object
+  //Method below saves any new facility site. 
+  //FacilitySiteData object as a parameter and return a FacilitySiteData object
+  	
     public XrayFacilityData saveFacilitySite(XrayFacilityData XrayFacilityData) {
   Long facilitySiteId = XrayFacilityData.getFacilitySiteId();
   FacilitySite facilitySite  = findOrCreateFacilitySite(facilitySiteId);
@@ -69,10 +74,10 @@ public class FacilitySiteService {
 	}
 	return facilitySite;
     }
-    
+   
     ////////////////saveTech method/////////////////
     @Transactional(readOnly = false)
-    public FacilitySiteTech saveTech(Long facilitySiteId, FacilitySiteTech facilitySiteTech) {
+    public FacilitySiteTech saveTech(Long facilitySiteId, FacilitySiteTech facilitySiteTech) { //method signature
     FacilitySite facilitySite = findFacilitySiteById(facilitySiteId);
 	Long techId = facilitySiteTech.getTechId();
 	Tech tech = findOrCreateTech(facilitySiteId, techId);
@@ -81,16 +86,21 @@ public class FacilitySiteService {
 	  
 	  																		//set facilitySite in tech
 																			//add tech to facility site list of techs
-	
 	tech.setFacilitySite(facilitySite);
 	facilitySite.getTechs().add(tech);
 	
 	Tech dbTech = techDao.save(tech);
 	return new FacilitySiteTech(dbTech);
-}
+    }
     
     
-    																		// Note that findById returns an Optional. If the Optional is
+    public FacilitySiteTech updateTech (Long techId, Tech tech ) { 
+    	FacilitySiteTech facilitySiteTech = new FacilitySiteTech(tech);
+		facilitySiteTech.setTechId(techId);
+		return facilitySiteTech;
+    }
+
+    																// Note that findById returns an Optional. If the Optional is
     																		// empty .orElseThrow throws a NoSuchElementException. If the
     																		// Optional is not empty an Employee is returned.
          
@@ -113,7 +123,7 @@ public class FacilitySiteService {
     	}
 	    return findTechById(facilitySiteId, techId);
      }
-
+        
         	////copyTechFields method///////
 	       	public void copyTechFields(Tech tech, FacilitySiteTech facilitySiteTech) {
 	    	tech.setTechId(facilitySiteTech.getTechId());
@@ -122,6 +132,7 @@ public class FacilitySiteService {
 
 	      }
 	       /////findFacilitySiteById////
+	       	
 		    @Transactional(readOnly = false)
 		    public FacilitySitePatient savePatient(Long facilitySiteId, FacilitySitePatient facilitySitePatient) {
 			FacilitySite facilitySite = findFacilitySiteById(facilitySiteId);
@@ -195,6 +206,12 @@ public class FacilitySiteService {
 	      	FacilitySite facilitySite = facilitySiteDao.findById(facilitySiteId).orElseThrow(() -> new NoSuchElementException("Facility Site with ID=" + facilitySiteId + " does not exist."));
 	        facilitySiteDao.delete(facilitySite);
 
+			}
+
+
+			public FacilitySitePatient savePatient(FacilitySitePatient facilitySitePatient) {
+				// TODO Auto-generated method stub
+				return null;
 			}
 	 	    
 	 	    
